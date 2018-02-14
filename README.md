@@ -16,6 +16,6 @@ run as
 ```
 java -jar mid2mbseq-0.0.1.jar -i midi_file.mid
 ```
-output will be midi_file.mbseq
+output will be `midi_file.mbseq`
 
 add -f to use filler option
