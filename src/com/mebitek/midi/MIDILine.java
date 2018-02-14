@@ -15,7 +15,7 @@ options:
 
 public class MIDILine {
 
-	private static final int STEP_RES = 16;
+	private static final int STEP_RES = 16; 
 
 	private List<String> keys;
 
@@ -36,9 +36,9 @@ public class MIDILine {
 			if (midiValue.isValid()) {
 				valid = true;
 				long diff = midiValue.getTick() - prevValue.getTick();
-				int pauses = (int) (diff / 240)-1;
-				if (i==1) {
-					pauses = pauses +1;
+				int pauses = (int) (diff / 240) - 1;
+				if (i == 1) {
+					pauses = pauses + 1;
 				}
 
 				for (int j = 0; j < pauses; j++) {
@@ -53,8 +53,7 @@ public class MIDILine {
 		if (option == 1) {
 			if (valid) {
 				int size = keys.size();
-				// TODO option to set the filler
-				int stepSize = 64;
+				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
 
 				for (int i = 0; i < stepSize - size; i++) {
 					keys.add(" x");
