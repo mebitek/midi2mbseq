@@ -43,7 +43,7 @@ public class MIDILine {
 					}
 
 					for (int j = 0; j < pauses; j++) {
-						keys.add(" x");
+						keys.add("x");
 					}
 
 					keys.add(midiValue.getValue());
@@ -58,7 +58,7 @@ public class MIDILine {
 				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
 
 				for (int i = 0; i < stepSize - size; i++) {
-					keys.add(" x");
+					keys.add("x");
 				}
 			}
 		}
@@ -73,9 +73,9 @@ public class MIDILine {
 
 		int end = (keys.size() * seqNumber);
 		int start = end - items;
-
 		for (String key : keys.subList(start, end)) {
 			builder.append(key);
+			builder.append(" ");
 		}
 		return builder.toString();
 	}

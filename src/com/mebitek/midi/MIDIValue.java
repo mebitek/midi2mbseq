@@ -41,10 +41,10 @@ public class MIDIValue {
 			noteName = NOTE_NAMES[note];
 			command = sm.getCommand();
 			if (sm.getCommand() == NOTE_ON) {
-				value = String.valueOf(" "+key);
+				value = String.valueOf(key);
 				valid = true;
 			} else if (sm.getCommand() == NOTE_OFF && key == 127) {
-				value = " x";
+				value = "x";
 				valid = true;
 			}
 		}
