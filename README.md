@@ -1,2 +1,2 @@
 # midi2mbseq
-mid file to mbseq (Microbrute sequence) converter
+mid file to mbseq (Arturia Microbrute sequence) converter
