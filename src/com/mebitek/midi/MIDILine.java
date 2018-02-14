@@ -15,7 +15,7 @@ options:
 
 public class MIDILine {
 
-	private static final int STEP_RES = 16; 
+	private static final int STEP_RES = 16;
 
 	private List<String> keys;
 
@@ -34,19 +34,21 @@ public class MIDILine {
 
 			MIDIValue midiValue = new MIDIValue(event);
 			if (midiValue.isValid()) {
-				valid = true;
-				long diff = midiValue.getTick() - prevValue.getTick();
-				int pauses = (int) (diff / 240) - 1;
-				if (i == 1) {
-					pauses = pauses + 1;
-				}
+				if (midiValue.getTick() != prevValue.getTick()) {
+					valid = true;
+					long diff = midiValue.getTick() - prevValue.getTick();
+					int pauses = (int) (diff / 240) - 1;
+					if (i == 1) {
+						pauses = pauses + 1;
+					}
 
-				for (int j = 0; j < pauses; j++) {
-					keys.add(" x");
-				}
+					for (int j = 0; j < pauses; j++) {
+						keys.add(" x");
+					}
 
-				keys.add(midiValue.getValue());
-				prevValue = midiValue;
+					keys.add(midiValue.getValue());
+					prevValue = midiValue;
+				}
 			}
 		}
 

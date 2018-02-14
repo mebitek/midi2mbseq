@@ -20,7 +20,7 @@ public class MIDIValue {
 	private int command;
 
 	MIDIValue() {
-		tick = 0;
+		tick = -1;
 	}
 
 	MIDIValue(MidiEvent event) {
