@@ -77,6 +77,7 @@ public class MIDILine {
 			builder.append(key);
 			builder.append(" ");
 		}
+		builder.setLength(builder.length() - 1);
 		return builder.toString();
 	}
 
