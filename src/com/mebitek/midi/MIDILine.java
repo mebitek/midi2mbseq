@@ -37,9 +37,12 @@ public class MIDILine {
 			if (midiValue.isValid()) {
 				valid = true;
 				long diff = midiValue.getTick() - prevValue.getTick();
-				int pauses = (int) (diff / 240);
+				int pauses = (int) (diff / 240)-1;
+				if (i==1) {
+					pauses = pauses +1;
+				}
 
-				for (int j = 1; j < pauses; j++) {
+				for (int j = 0; j < pauses; j++) {
 					keys.add(" x");
 				}
 

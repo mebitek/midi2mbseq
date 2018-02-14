@@ -16,8 +16,7 @@ public class Main {
 	private final static int MICROBRUTE_MAX_SEQ_LINES = 8;
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
-
-		File midiFile = new File("/home/claudio/Scaricati/midi_maschine.mid");
+		File midiFile = new File("/home/claudio/Scaricati/midi_maschine_3.mid");
 //		File midiFile = new File("/home/claudio/Scaricati/aeon01.mbseq_1.mid");
 
 		String path = midiFile.getParent();
@@ -36,7 +35,7 @@ public class Main {
 			System.out.println();
 
 
-			MIDILine line = new MIDILine(track, 0);
+			MIDILine line = new MIDILine(track, 1);
 			System.out.println("Line Size: " + line.getSize());
 			System.out.println("Seq Size: " + MICROBRUTE_SEQ_LENGTH);
 			int seqLines = 1;
