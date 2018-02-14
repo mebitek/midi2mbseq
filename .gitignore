@@ -27,3 +27,4 @@ out/*
 *.mid
 *.mbseq
 Main2.java
+target/*
