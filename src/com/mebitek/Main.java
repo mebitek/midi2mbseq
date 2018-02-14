@@ -1,6 +1,7 @@
 package com.mebitek;
 
 import com.mebitek.midi.MIDILine;
+import org.apache.commons.cli.*;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -16,8 +17,36 @@ public class Main {
 	private final static int MICROBRUTE_MAX_SEQ_LINES = 8;
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
-		File midiFile = new File("/home/claudio/Scaricati/midi_maschine_3.mid");
-//		File midiFile = new File("/home/claudio/Scaricati/aeon01.mbseq_1.mid");
+
+		int fillerType = 0;
+		Options options = new Options();
+
+		Option input = new Option("i", "input", true, "input file");
+		input.setRequired(true);
+		options.addOption(input);
+		Option filler = new Option("f", "multiple-filler", false, "fill to the nearest step multiple");
+		filler.setRequired(false);
+		options.addOption(filler);
+
+		CommandLineParser parser = new DefaultParser();
+		HelpFormatter formatter = new HelpFormatter();
+		CommandLine cmd;
+
+		try {
+			cmd = parser.parse(options, args);
+		} catch (ParseException e) {
+			System.out.println(e.getMessage());
+			formatter.printHelp("mid2mbseq", options);
+
+			System.exit(1);
+			return;
+		}
+
+		String inputFilePath = cmd.getOptionValue("input");
+		if (cmd.hasOption("multiple-filler")) {
+			fillerType = 1;
+		}
+		File midiFile = new File(inputFilePath);
 
 		String path = midiFile.getParent();
 		String filename = midiFile.getName();
@@ -35,7 +64,7 @@ public class Main {
 			System.out.println();
 
 
-			MIDILine line = new MIDILine(track, 1);
+			MIDILine line = new MIDILine(track, fillerType);
 			System.out.println("Line Size: " + line.getSize());
 			System.out.println("Seq Size: " + MICROBRUTE_SEQ_LENGTH);
 			int seqLines = 1;
