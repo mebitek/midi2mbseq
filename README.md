@@ -12,5 +12,8 @@ Quantize is suggested but not needed.
 # run 
 download https://github.com/mebitek/midi2mbseq/blob/master/mid2mbseq-0.0.1.jar 
 
-run as java -jar mid2mbseq-0.0.1.jar -i midi_file.mid
+run as 
+```
+java -jar mid2mbseq-0.0.1.jar -i midi_file.mid
+```
 add -f to use filler option
