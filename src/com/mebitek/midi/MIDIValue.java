@@ -17,6 +17,7 @@ public class MIDIValue {
 	private boolean valid = false;
 	private long tick;
 	private String value;
+	private int command;
 
 	MIDIValue() {
 		tick = 0;
@@ -38,6 +39,7 @@ public class MIDIValue {
 			octave = (key / 12) - 1;
 			note = key % 12;
 			noteName = NOTE_NAMES[note];
+			command = sm.getCommand();
 			if (sm.getCommand() == NOTE_ON) {
 				value = String.valueOf(" "+key);
 				valid = true;
@@ -70,6 +72,7 @@ public class MIDIValue {
 				", valid=" + valid +
 				", tick=" + tick +
 				", value='" + value + '\'' +
+				", command=" + command +
 				'}';
 	}
 }

@@ -21,7 +21,7 @@ public class MIDILine {
 	private List<String> keys;
 
 	public MIDILine(Track track) {
-		this(track,  0);
+		this(track, 0);
 	}
 
 
@@ -37,22 +37,13 @@ public class MIDILine {
 			if (midiValue.isValid()) {
 				valid = true;
 				long diff = midiValue.getTick() - prevValue.getTick();
-				if (diff <= 240) {
-					keys.add(midiValue.getValue());
+				int pauses = (int) (diff / 240);
+
+				for (int j = 1; j < pauses; j++) {
+					keys.add(" x");
 				}
-				else {
-					int point = (int) (diff / 480);
-					if (point > 1) {
-						for (int j = 0; j <= point; j++) {
-							keys.add(midiValue.getValue());
-							if (j == point) {
-								keys.add(midiValue.getValue());
-							}
-						}
-					} else {
-						keys.add(midiValue.getValue());
-					}
-				}
+
+				keys.add(midiValue.getValue());
 				prevValue = midiValue;
 			}
 		}

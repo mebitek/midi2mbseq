@@ -10,7 +10,7 @@ public class Main2 {
 	public static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
 	public static void main(String[] args) throws Exception {
-		Sequence sequence = MidiSystem.getSequence(new File("/home/claudio/Scaricati/aeon01.mbseq_1.mid"));
+		Sequence sequence = MidiSystem.getSequence(new File("/home/claudio/Scaricati/midi_maschine.mid"));
 
 		int trackNumber = 0;
 		for (Track track :  sequence.getTracks()) {

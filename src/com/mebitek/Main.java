@@ -36,7 +36,7 @@ public class Main {
 			System.out.println();
 
 
-			MIDILine line = new MIDILine(track, 1);
+			MIDILine line = new MIDILine(track, 0);
 			System.out.println("Line Size: " + line.getSize());
 			System.out.println("Seq Size: " + MICROBRUTE_SEQ_LENGTH);
 			int seqLines = 1;
