@@ -41,6 +41,7 @@ public class MIDILine {
 
 		optimizeKeys();
 		this.pageable = new Pageable<>(keys);
+		this.pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
 
 		if (option == 1) {
 			int size = keys.size();
@@ -65,7 +66,7 @@ public class MIDILine {
 
 	public String getLine(int seqNumber) {
 
-		pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
+
 		pageable.setPage(seqNumber);
 
 		return StringUtils.join(pageable.getListForPage(), " ");
