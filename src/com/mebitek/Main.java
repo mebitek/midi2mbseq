@@ -22,7 +22,7 @@ import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 /**
  * Arturia Microbrute utility
  * mid file to mbseq file converter
- * <p>
+ *
  * Arturia Microbrute page: https://www.arturia.com/products/hardware-synths/microbrute
  * mebitek page: http://music.mebitek.com/
  *
