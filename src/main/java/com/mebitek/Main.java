@@ -11,15 +11,14 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Track;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
@@ -43,8 +42,9 @@ class Main {
 	 */
 	private static void createAndShowGUI() throws IOException {
 		//Create and set up the window.
-		JFrame frame = new JFrame("mid2mbseq "+getVersion());
+		JFrame frame = new JFrame("mid2mbseq "+Utils.getVersion());
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(1100, 600));
 
 		//Add content to the window.
 		frame.add(new UIMid2Mbseq());
@@ -76,7 +76,7 @@ class Main {
 			});
 		} else {
 
-			System.out.println("mid2mbseq converter v" + getVersion());
+			System.out.println("mid2mbseq converter v" + Utils.getVersion());
 			System.out.println();
 			Options options = new Options();
 
@@ -174,8 +174,6 @@ class Main {
 
 			}
 
-			System.out.println("Files: " + files.size());
-
 			MbseqFileWriter writer = new MbseqFileWriter(mbseqFileName);
 			int totalSeqNumber = 1;
 			for (File midiFile : files) {
@@ -212,18 +210,5 @@ class Main {
 			writer.close();
 			System.out.println("Output file: " + mbseqFileName);
 		}
-	}
-
-	private static String getVersion() throws IOException {
-		InputStream resourceAsStream =
-				Main.class.getClass().getResourceAsStream(
-						"/version.properties"
-				);
-		Properties prop = new Properties();
-
-		prop.load(resourceAsStream);
-
-		return prop.getProperty("version");
-
 	}
 }

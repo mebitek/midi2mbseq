@@ -1,6 +1,8 @@
 package com.mebitek.ui;
 
+import com.mebitek.Utils;
 import com.mebitek.midi.MIDILine;
+import com.mebitek.utils.Filler;
 import com.mebitek.utils.MbseqFileWriter;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -11,28 +13,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
+import static com.mebitek.Constants.*;
 
 public class UIMid2Mbseq extends JPanel
 		implements ActionListener {
 	static private final String newline = "\n";
 	JButton openButton, convertButton;
+	JPanel buttonPanel;
 	JTextArea log;
 	JFileChooser fc;
+	Filler filler;
+	int stepLength;
 
-	List<File> files;
+	private List<File> files;
+	private String mbseqFileName;
+	TextField stepResField;
+	TextField lengthField;
 
-	public UIMid2Mbseq() {
+	public UIMid2Mbseq() throws IOException {
 		super(new BorderLayout());
 		files = new ArrayList<>();
 		//Create the log first, because the action listeners
@@ -41,17 +50,51 @@ public class UIMid2Mbseq extends JPanel
 		log.setMargin(new Insets(5, 5, 5, 5));
 		log.setEditable(false);
 		JScrollPane logScrollPane = new JScrollPane(log);
-
+		log.append("mid2mbseq converter v" + Utils.getVersion() + newline);
+		System.out.println();
 		//Create a file chooser
 		fc = new JFileChooser();
 
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-		//Create the open button.  We use the image from the JLF
-		//Graphics Repository (but we extracted it from the jar).
 		openButton = new JButton("Open a File...",
 				createImageIcon("images/Open16.gif"));
 		openButton.addActionListener(this);
+
+
+		JRadioButton multiple = new JRadioButton("16 Multiple");
+		multiple.setMnemonic(KeyEvent.VK_M);
+		multiple.setSelected(true);
+		multiple.setActionCommand("multiple");
+
+		JRadioButton full = new JRadioButton("Full");
+		full.setMnemonic(KeyEvent.VK_F);
+		full.setActionCommand("full");
+		full.setSelected(true);
+
+		JRadioButton custom = new JRadioButton("custom");
+		custom.setMnemonic(KeyEvent.VK_C);
+		custom.setActionCommand("custom");
+
+		//Group the radio buttons.
+		ButtonGroup group = new ButtonGroup();
+		group.add(multiple);
+		group.add(full);
+		group.add(custom);
+
+		JCheckBox lengthCheckbox = new JCheckBox("Length");
+
+		lengthCheckbox.addItemListener(e -> {
+					if (e.getStateChange() == ItemEvent.DESELECTED) {
+						UIUtils.setVisible(lengthField, false);
+						stepLength = MICROBRUTE_SEQ_LENGTH;
+					} else if (e.getStateChange() == ItemEvent.SELECTED) {
+						UIUtils.setVisible(lengthField, true);
+						stepLength = MICROBRUTE_SEQ_LENGTH;
+						lengthField.setText(Integer.toString(MICROBRUTE_SEQ_LENGTH));
+					}
+				}
+		);
 
 		//Create the save button.  We use the image from the JLF
 		//Graphics Repository (but we extracted it from the jar).
@@ -60,29 +103,87 @@ public class UIMid2Mbseq extends JPanel
 		convertButton.addActionListener(this);
 
 		//For layout purposes, put the buttons in a separate panel
-		JPanel buttonPanel = new JPanel(); //use FlowLayout
+		buttonPanel = new JPanel();
 		buttonPanel.add(openButton);
 		buttonPanel.add(convertButton);
+		buttonPanel.add(full);
+		buttonPanel.add(multiple);
+		buttonPanel.add(custom);
+
 
 		//Add the buttons and the log to this panel.
 		add(buttonPanel, BorderLayout.PAGE_START);
 		add(logScrollPane, BorderLayout.CENTER);
+
+		lengthField = new TextField(Integer.toString(MICROBRUTE_SEQ_LENGTH));
+		lengthField.addActionListener(e -> {
+			stepLength = Integer.valueOf(e.getActionCommand());
+		});
+		stepResField = new TextField(Integer.toString(STEP_RES));
+		stepResField.addActionListener(e -> {
+			filler = new Filler(2, e.getActionCommand());
+		});
+
+		UIUtils.setVisible(stepResField, false);
+		buttonPanel.add(stepResField);
+		buttonPanel.add(lengthCheckbox);
+		UIUtils.setVisible(lengthField, false);
+		buttonPanel.add(lengthField);
+
+		custom.addActionListener(e -> {
+			UIUtils.setVisible(stepResField, true);
+			filler = new Filler(2, STEP_RES);
+
+		});
+		full.addActionListener(e -> {
+			UIUtils.setVisible(stepResField, false);
+			filler = new Filler(3, Integer.toString(MICROBRUTE_SEQ_LENGTH));
+		});
+
+		multiple.addActionListener(e -> {
+			UIUtils.setVisible(stepResField, false);
+			filler = new Filler(1);
+		});
+
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
 		//Handle open button action.
 		if (e.getSource() == openButton) {
-
 			fc.addChoosableFileFilter(new MidFilter());
 			fc.setAcceptAllFileFilterUsed(false);
 
 			int returnVal = fc.showOpenDialog(UIMid2Mbseq.this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
+				File inputFile = fc.getSelectedFile();
 				//This is where a real application would open the file.
-				log.append("Opening: " + file.getName() + "." + newline);
+				log.append("Opening: " + inputFile.getName() + "." + newline);
+				String path;
+				String filename;
+				if (inputFile.isDirectory()) {
+
+					File[] directoryListing = inputFile.listFiles((dir, name) -> name.endsWith(".mid"));
+
+					if (directoryListing != null) {
+						files.addAll(Arrays.asList(directoryListing));
+					} else {
+						NotDirectoryException e1 = new NotDirectoryException(inputFile.getName());
+						log.append(e1.getLocalizedMessage());
+						return;
+					}
+					path = inputFile.getPath();
+					mbseqFileName = Paths.get(path, inputFile.getName() + ".mbseq").toString();
+				} else {
+					files.add(inputFile);
+					path = inputFile.getParent();
+					filename = inputFile.getName();
+					mbseqFileName = Paths.get(path, filename.replaceAll(".mid", ".mbseq")).toString();
+				}
+				log.append("Files: " + files.size() + newline);
+
 			} else {
 				log.append("Open command cancelled by user." + newline);
 			}
@@ -90,32 +191,10 @@ public class UIMid2Mbseq extends JPanel
 
 			//Handle convert button action.
 		} else if (e.getSource() == convertButton) {
-
-			File inputFile = fc.getSelectedFile();
-			String path;
-			String filename;
-			String mbseqFileName;
-			if (inputFile.isDirectory()) {
-
-				File[] directoryListing = inputFile.listFiles((dir, name) -> name.endsWith(".mid"));
-
-				if (directoryListing != null) {
-					files.addAll(Arrays.asList(directoryListing));
-				} else {
-					NotDirectoryException e1 = new NotDirectoryException(inputFile.getName());
-					e1.printStackTrace();
-					return;
-				}
-				path = inputFile.getPath();
-				mbseqFileName = Paths.get(path, inputFile.getName() + ".mbseq").toString();
-			} else {
-				files.add(inputFile);
-				log.append("Files: " + files.size() + newline);
-				path = inputFile.getParent();
-				filename = inputFile.getName();
-				mbseqFileName = Paths.get(path, filename.replaceAll(".mid", ".mbseq")).toString();
+			if (mbseqFileName == null) {
+				log.append("Select a file");
+				return;
 			}
-			
 			MbseqFileWriter writer;
 			try {
 				writer = new MbseqFileWriter(mbseqFileName);
@@ -128,7 +207,7 @@ public class UIMid2Mbseq extends JPanel
 						sequence = MidiSystem.getSequence(midiFile);
 
 						for (Track track : sequence.getTracks()) {
-							MIDILine line = new MIDILine(track, null, 64);
+							MIDILine line = new MIDILine(track, filler, stepLength);
 							int seqLines = line.getSeqNumber();
 							if (seqLines > 0) {
 								log.append("* File " + midiFile.getName() + ": size = " + track.size() + newline);
@@ -152,14 +231,19 @@ public class UIMid2Mbseq extends JPanel
 							}
 						}
 					} catch (InvalidMidiDataException | IOException e1) {
-						e1.printStackTrace();
+						log.append(e1.getLocalizedMessage());
 					}
 
 				}
 				writer.close();
-				log.append("Output file: " + mbseqFileName+newline);
-			} catch (FileNotFoundException | UnsupportedEncodingException e1) {
-				e1.printStackTrace();
+				File outFile = new File(mbseqFileName);
+				log.append("Output file: " + outFile.getName() + newline);
+
+				String content = new String(Files.readAllBytes(Paths.get(mbseqFileName)));
+				log.append(content + newline);
+
+			} catch (IOException e1) {
+				log.append(e1.getLocalizedMessage());
 			}
 
 			log.setCaretPosition(log.getDocument().getLength());
