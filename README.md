@@ -23,7 +23,7 @@ run as
 ```
 java -jar mid2mbseq-0.2.1.jar
 ```
-to run in batch mode as 
+to run in batch mode
 ```
 java -jar mid2mbseq-0.2.1.jar -b -i midi_file.mid
 ```
