@@ -10,7 +10,6 @@ import javax.sound.midi.Track;
 import java.io.File;
 import java.io.IOException;
 
-import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
 
@@ -50,13 +49,13 @@ public class Main {
 
 		String path = midiFile.getParent();
 		String filename = midiFile.getName();
-		String mseqFileName = filename.replaceAll(".mid",".mbseq");
+		String mseqFileName = filename.replaceAll(".mid", ".mbseq");
 
 		Sequence sequence = MidiSystem.getSequence(midiFile);
 
 		int trackNumber = 0;
 
-		MseqFileWriter writer = new MseqFileWriter(path+"/"+mseqFileName);
+		MseqFileWriter writer = new MseqFileWriter(path + "/" + mseqFileName);
 
 		for (Track track : sequence.getTracks()) {
 			trackNumber++;
@@ -68,19 +67,12 @@ public class Main {
 			System.out.println("Line Size: " + line.getSize());
 			System.out.println("Seq Size: " + MICROBRUTE_SEQ_LENGTH);
 			int seqLines = line.getSeqNumber();
-
-			if (seqLines > MICROBRUTE_MAX_SEQ_LINES) {
-				seqLines = MICROBRUTE_MAX_SEQ_LINES;
-			}
 			System.out.println("Seq Lines: " + seqLines);
 
 			for (int seqNumber = 1; seqNumber <= seqLines; seqNumber++) {
-
-				if (line.isValid()) {
-					writer.initLine(seqNumber);
-					writer.print(line.getLine(seqNumber));
-					writer.println();
-				}
+				writer.initLine(seqNumber);
+				writer.print(line.getLine(seqNumber));
+				writer.println();
 			}
 		}
 		writer.close();

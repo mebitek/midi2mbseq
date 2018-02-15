@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 import static com.mebitek.Constants.STEP_RES;
 
@@ -45,7 +46,7 @@ public class MIDILine {
 
 		if (option == 1) {
 			int size = keys.size();
-			if (size<MICROBRUTE_SEQ_LENGTH) {
+			if (size < MICROBRUTE_SEQ_LENGTH) {
 				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
 				for (int i = 0; i < stepSize - size; i++) {
 					keys.add("x");
@@ -55,7 +56,7 @@ public class MIDILine {
 	}
 
 	private void optimizeKeys() {
-		if (keys.size()>0) {
+		if (keys.size() > 0) {
 			keys = new ArrayList<>(Arrays.asList(StringUtils.join(keys, " ").split(" ")));
 		}
 	}
@@ -65,19 +66,17 @@ public class MIDILine {
 	}
 
 	public String getLine(int seqNumber) {
-
-
 		pageable.setPage(seqNumber);
-
 		return StringUtils.join(pageable.getListForPage(), " ");
 	}
 
 
 	public int getSeqNumber() {
-		return pageable.getMaxPages();
+		int seqLines = pageable.getMaxPages();
+		if (seqLines > MICROBRUTE_MAX_SEQ_LINES) {
+			seqLines = MICROBRUTE_MAX_SEQ_LINES;
+		}
+		return seqLines;
 	}
 
-	public boolean isValid() {
-		return keys.size() > 0;
-	}
 }
