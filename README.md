@@ -29,7 +29,7 @@ java -jar mid2mbseq-0.2.1.jar -d /home/user/midi_directory
 ```
 output will be `midi_directory.mbseq`
 
-add `-f` to use full filler option
-add `-m` to use multiple 16 filler option
-add `-c value` to use the filler with custom value
-add `-l` to use set the sequence length
+* add `-f` to use full filler option
+* add `-m` to use multiple 16 filler option
+* add `-c value` to use the filler with custom value
+* add `-l` to use set the sequence length
