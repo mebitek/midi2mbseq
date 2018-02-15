@@ -13,14 +13,6 @@ import java.util.List;
 import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
-/*
-
-options:
-0 -> no filler
-1 -> fill to the nearest step multiple
-*/
-
-
 public class MIDILine {
 
 	private List<String> keys;
@@ -77,7 +69,6 @@ public class MIDILine {
 		pageable.setPage(seqNumber);
 		return StringUtils.join(pageable.getListForPage(), " ");
 	}
-
 
 	public int getSeqNumber() {
 		int seqLines = pageable.getMaxPages();

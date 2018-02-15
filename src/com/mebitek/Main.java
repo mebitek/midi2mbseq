@@ -89,7 +89,6 @@ class Main {
 			mseqFileName = Paths.get(path, inputFile.getName() + ".mbseq").toString();
 		}
 
-
 		Filler filler = null;
 		if (cmd.hasOption("multiple-filler")) {
 			filler = new Filler(1);

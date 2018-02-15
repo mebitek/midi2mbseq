@@ -5,6 +5,14 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import java.util.Collections;
 
+/**
+ * Helper class that implements the value of the midi message
+ * in microbrute pauses char is 'x'. in this class pauses are grouped to fill
+ * the microbrute time sequencer signature (1/16th)
+ * only note on message are considered valid
+ *
+ * @author Claudio Melis
+ */
 class MIDIValue {
 
 	private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
@@ -14,16 +22,25 @@ class MIDIValue {
 	private int key;
 	private int octave;
 	private int note;
-	private String noteName ;
+	private String noteName;
 	private boolean valid = false;
 	private long tick;
 	private String value;
 	private int command;
 
+	/**
+	 * Creates a new instance with invalid tick.
+	 */
 	MIDIValue() {
 		tick = -1;
 	}
 
+	/**
+	 * Creates a new instance from MidiEvent and the prev midi value.
+	 *
+	 * @param event         a MidiEvent
+	 * @param prevMIDIValue a MIDIValue
+	 */
 	MIDIValue(MidiEvent event, MIDIValue prevMIDIValue) {
 		tick = event.getTick();
 		MidiMessage message = event.getMessage();
@@ -61,9 +78,20 @@ class MIDIValue {
 		}
 	}
 
+	/**
+	 * Gets the midi value
+	 *
+	 * @return the midi value
+	 */
 	public String getValue() {
 		return value;
 	}
+
+	/**
+	 * Gets the validity of the midi message
+	 *
+	 * @return if value is valid
+	 */
 
 	public boolean isValid() {
 		return valid;
