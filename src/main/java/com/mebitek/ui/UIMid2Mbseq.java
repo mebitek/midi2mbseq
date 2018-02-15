@@ -44,6 +44,8 @@ public class UIMid2Mbseq extends JPanel
 	public UIMid2Mbseq() throws IOException {
 		super(new BorderLayout());
 		files = new ArrayList<>();
+		stepLength = MICROBRUTE_SEQ_LENGTH;
+
 		//Create the log first, because the action listeners
 		//need to refer to it.
 		log = new JTextArea(5, 20);
@@ -109,7 +111,6 @@ public class UIMid2Mbseq extends JPanel
 		buttonPanel.add(full);
 		buttonPanel.add(multiple);
 		buttonPanel.add(custom);
-
 
 		//Add the buttons and the log to this panel.
 		add(buttonPanel, BorderLayout.PAGE_START);
@@ -217,7 +218,7 @@ public class UIMid2Mbseq extends JPanel
 								int linesNeeded = MICROBRUTE_MAX_SEQ_LINES - (totalSeqNumber + seqLines - 1);
 								if (linesNeeded <= 0) {
 									seqLines = seqLines + linesNeeded;
-									System.out.println(Math.abs(linesNeeded) + " lines skipped");
+									log.append(Math.abs(linesNeeded) + " lines skipped");
 								}
 
 								for (int seqNumber = 1; seqNumber <= seqLines; seqNumber++) {
