@@ -1,8 +1,8 @@
-package main.java.mebitek.midi;
+package com.mebitek.midi;
 
-import main.java.mebitek.utils.Filler;
-import main.java.mebitek.utils.Pageable;
-import com.sun.deploy.util.StringUtils;
+import com.mebitek.utils.Filler;
+import com.mebitek.utils.Pageable;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Track;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static main.java.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
+import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 
 
 /**

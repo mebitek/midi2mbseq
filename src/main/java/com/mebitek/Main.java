@@ -1,8 +1,8 @@
 package com.mebitek;
 
-import main.java.mebitek.midi.MIDILine;
-import main.java.mebitek.utils.Filler;
-import main.java.mebitek.utils.MbseqFileWriter;
+import com.mebitek.midi.MIDILine;
+import com.mebitek.utils.Filler;
+import com.mebitek.utils.MbseqFileWriter;
 import org.apache.commons.cli.*;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import static main.java.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
-import static main.java.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
+import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
+import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
 /**
  * Arturia Microbrute utility

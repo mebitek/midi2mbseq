@@ -1,4 +1,4 @@
-package main.java.mebitek;
+package com.mebitek;
 
 /**
  * Constants class for default values

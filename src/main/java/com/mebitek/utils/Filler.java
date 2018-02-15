@@ -1,6 +1,6 @@
-package main.java.mebitek.utils;
+package com.mebitek.utils;
 
-import static main.java.mebitek.Constants.STEP_RES;
+import static com.mebitek.Constants.STEP_RES;
 
 /**
  * Helper class that implements filler option
