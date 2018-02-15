@@ -13,12 +13,24 @@ import java.util.List;
 import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
+
+/**
+ * Helper class that implements a single microbrute sequence
+ *
+ * @author Claudio Melis
+ */
 public class MIDILine {
 
 	private List<String> keys;
 	private final Pageable<String> pageable;
 	private final Filler option;
 
+	/**
+	 * Creates a new instance from Midi Track.
+	 *
+	 * @param track  a Midi Track
+	 * @param option a Filler option
+	 */
 	public MIDILine(Track track, Filler option) {
 		keys = new ArrayList<>();
 		this.option = option;
@@ -38,6 +50,9 @@ public class MIDILine {
 		this.pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
 	}
 
+	/**
+	 * Optimize the step list and apply the filler if needed
+	 */
 	private void optimizeKeys() {
 
 		if (keys.size() > 0) {
@@ -45,8 +60,8 @@ public class MIDILine {
 			int size = keys.size();
 			if (option != null) {
 				int stepRes = option.getValue();
-				if (stepRes<=0) {
-					stepRes=1;
+				if (stepRes <= 0) {
+					stepRes = 1;
 				}
 				if (stepRes > MICROBRUTE_SEQ_LENGTH) {
 					stepRes = MICROBRUTE_SEQ_LENGTH;
@@ -61,15 +76,31 @@ public class MIDILine {
 		}
 	}
 
+	/**
+	 * Return the size of the whole step sequence
+	 *
+	 * @return  total steps size
+	 */
 	public int getSize() {
 		return keys.size();
 	}
 
+	/**
+	 * Return a step sublist at specific sequence number
+	 *
+	 * @param seqNumber the sequence number
+	 * @return  total steps size
+	 */
 	public String getLine(int seqNumber) {
 		pageable.setPage(seqNumber);
 		return StringUtils.join(pageable.getListForPage(), " ");
 	}
 
+	/**
+	 * Return the number of the sequence, max 8
+	 *
+	 * @return  the number of sequences
+	 */
 	public int getSeqNumber() {
 		int seqLines = pageable.getMaxPages();
 		if (seqLines > MICROBRUTE_MAX_SEQ_LINES) {

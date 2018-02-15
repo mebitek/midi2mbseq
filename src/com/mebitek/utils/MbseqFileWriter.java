@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @author Claudio Melis
  */
-public class MseqFileWriter {
+public class MbseqFileWriter {
 
 	private static final String ENCODE = "UTF-8";
 
@@ -18,23 +18,24 @@ public class MseqFileWriter {
 
 	/**
 	 * Creates a new instance
+	 *
+	 * @param fileName the filename
 	 */
-	public MseqFileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+	public MbseqFileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		this.writer = new PrintWriter(fileName, ENCODE);
 	}
 
 	/**
 	 * Print a line
 	 *
-	 * @param line   the line to be printed
+	 * @param line the line to be printed
 	 */
 	public void print(String line) {
 		this.writer.print(line);
 	}
 
 	/**
-	 * Print empty line with \n
-	 *
+	 * Print new line
 	 */
 	public void println() {
 		this.writer.println();
@@ -42,7 +43,6 @@ public class MseqFileWriter {
 
 	/**
 	 * Close the writer
-	 *
 	 */
 	public void close() {
 		this.writer.close();
@@ -51,9 +51,9 @@ public class MseqFileWriter {
 	/**
 	 * Initialize the line with the sequence number
 	 *
-	 * @param index   the sequence number
+	 * @param index the sequence number
 	 */
 	public void initLine(int index) {
-		this.print(index+":");
+		this.print(index + ":");
 	}
 }

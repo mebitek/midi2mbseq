@@ -2,7 +2,7 @@ package com.mebitek;
 
 import com.mebitek.midi.MIDILine;
 import com.mebitek.utils.Filler;
-import com.mebitek.utils.MseqFileWriter;
+import com.mebitek.utils.MbseqFileWriter;
 import org.apache.commons.cli.*;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -19,7 +19,15 @@ import java.util.List;
 
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
-
+/**
+ * Arturia Microbrute utility
+ * mid file to mbseq file converter
+ * <p>
+ * Arturia Microbrute page: https://www.arturia.com/products/hardware-synths/microbrute
+ * mebitek page: http://music.mebitek.com/
+ *
+ * @author Claudio Melis
+ */
 class Main {
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
@@ -65,14 +73,14 @@ class Main {
 		File inputFile;
 		String path;
 		String filename;
-		String mseqFileName = null;
+		String mbseqFileName = null;
 		if (cmd.hasOption("input")) {
 			String inputFilePath = cmd.getOptionValue("input");
 			inputFile = new File(inputFilePath);
 			files.add(inputFile);
 			path = inputFile.getParent();
 			filename = inputFile.getName();
-			mseqFileName = Paths.get(path, filename.replaceAll(".mid", ".mbseq")).toString();
+			mbseqFileName = Paths.get(path, filename.replaceAll(".mid", ".mbseq")).toString();
 
 		} else if (cmd.hasOption("dir")) {
 			String inputDirectoryPath = cmd.getOptionValue("dir");
@@ -86,7 +94,7 @@ class Main {
 				throw new NotDirectoryException(inputFile.getName());
 			}
 			path = inputFile.getPath();
-			mseqFileName = Paths.get(path, inputFile.getName() + ".mbseq").toString();
+			mbseqFileName = Paths.get(path, inputFile.getName() + ".mbseq").toString();
 		}
 
 		Filler filler = null;
@@ -101,7 +109,7 @@ class Main {
 
 		System.out.println("Files: " + files.size());
 
-		MseqFileWriter writer = new MseqFileWriter(mseqFileName);
+		MbseqFileWriter writer = new MbseqFileWriter(mbseqFileName);
 		int totalSeqNumber = 1;
 		for (File midiFile : files) {
 
