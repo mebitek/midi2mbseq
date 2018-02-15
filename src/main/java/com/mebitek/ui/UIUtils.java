@@ -1,6 +1,6 @@
 package com.mebitek.ui;
 
-import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 /* Utils.java is used by FileChooserDemo2.java. */
@@ -21,15 +21,10 @@ public class UIUtils {
 		return ext;
 	}
 
-	/** Returns an ImageIcon, or null if the path was invalid. */
-	protected static ImageIcon createImageIcon(String path) {
-		java.net.URL imgURL = UIUtils.class.getResource(path);
-		if (imgURL != null) {
-			return new ImageIcon(imgURL);
-		} else {
-			System.err.println("Couldn't find file: " + path);
-			return null;
-		}
+	public static void setVisible(Component component, boolean visible) {
+		component.setVisible(visible);
+		component.revalidate();
+		component.repaint();
 	}
 }
 

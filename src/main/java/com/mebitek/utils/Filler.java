@@ -20,6 +20,12 @@ public class Filler {
 		this.value = Integer.parseInt(value);
 	}
 
+	public Filler(int type, int value) {
+		this(type);
+		this.value = value;
+	}
+
+
 	/**
 	 * Creates a new instance with default step resolution
 	 *
