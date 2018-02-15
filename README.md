@@ -21,7 +21,7 @@ Quantize is suggested but not needed.
 * osx https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.dmg
 * java https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.jar
 
-# run java as
+### run java as
 ```
 java -jar mid2mbseq-0.2.1.jar
 ```
