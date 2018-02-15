@@ -2,6 +2,7 @@ package com.mebitek;
 
 import com.mebitek.midi.MIDILine;
 import com.mebitek.utils.Filler;
+import com.mebitek.utils.MseqFileWriter;
 import org.apache.commons.cli.*;
 
 import javax.sound.midi.InvalidMidiDataException;

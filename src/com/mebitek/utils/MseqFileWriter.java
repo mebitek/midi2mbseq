@@ -1,16 +1,16 @@
-package com.mebitek;
+package com.mebitek.utils;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-class MseqFileWriter {
+public class MseqFileWriter {
 
 	private static final String ENCODE = "UTF-8";
 
 	private PrintWriter writer;
 
-	MseqFileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+	public MseqFileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		this.writer = new PrintWriter(fileName, ENCODE);
 	}
 
