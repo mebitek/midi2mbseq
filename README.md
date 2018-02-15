@@ -16,10 +16,12 @@ http://music.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-convert
 For polyphonic midi file each step of the sequencer will be filled with the first note in the midi message (if you play a chord just the highest note will be chosen).
 Quantize is suggested but not needed.
 
-# run 
-download https://github.com/com.mebitek/midi2mbseq/blob/master/mid2mbseq-0.3.jar
+# releases
+* windows https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq.exe
+* osx https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.dmg
+* java https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.jar
 
-run as 
+# run java as
 ```
 java -jar mid2mbseq-0.2.1.jar
 ```
