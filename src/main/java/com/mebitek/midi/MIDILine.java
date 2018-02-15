@@ -1,7 +1,7 @@
-package com.mebitek.midi;
+package main.java.mebitek.midi;
 
-import com.mebitek.utils.Filler;
-import com.mebitek.utils.Pageable;
+import main.java.mebitek.utils.Filler;
+import main.java.mebitek.utils.Pageable;
 import com.sun.deploy.util.StringUtils;
 
 import javax.sound.midi.MidiEvent;
@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
-import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
+import static main.java.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 
 
 /**
@@ -24,6 +23,7 @@ public class MIDILine {
 	private List<String> keys;
 	private final Pageable<String> pageable;
 	private final Filler option;
+	private int maxSeqLength;
 
 	/**
 	 * Creates a new instance from Midi Track.
@@ -31,9 +31,10 @@ public class MIDILine {
 	 * @param track  a Midi Track
 	 * @param option a Filler option
 	 */
-	public MIDILine(Track track, Filler option) {
+	public MIDILine(Track track, Filler option, int maxSeqLength) {
 		keys = new ArrayList<>();
 		this.option = option;
+		this.maxSeqLength = maxSeqLength;
 		MIDIValue prevValue = new MIDIValue();
 		for (int i = 0; i < track.size(); i++) {
 			MidiEvent event = track.get(i);
@@ -47,7 +48,7 @@ public class MIDILine {
 
 		optimizeKeys();
 		this.pageable = new Pageable<>(keys);
-		this.pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
+		this.pageable.setPageSize(this.maxSeqLength);
 	}
 
 	/**
@@ -63,8 +64,8 @@ public class MIDILine {
 				if (stepRes <= 0) {
 					stepRes = 1;
 				}
-				if (stepRes > MICROBRUTE_SEQ_LENGTH) {
-					stepRes = MICROBRUTE_SEQ_LENGTH;
+				if (stepRes > this.maxSeqLength) {
+					stepRes = this.maxSeqLength;
 				}
 
 				int stepSize = (keys.size() + stepRes - 1) / stepRes * stepRes;
@@ -79,7 +80,7 @@ public class MIDILine {
 	/**
 	 * Return the size of the whole step sequence
 	 *
-	 * @return  total steps size
+	 * @return total steps size
 	 */
 	public int getSize() {
 		return keys.size();
@@ -89,7 +90,7 @@ public class MIDILine {
 	 * Return a step sublist at specific sequence number
 	 *
 	 * @param seqNumber the sequence number
-	 * @return  total steps size
+	 * @return sublist steps
 	 */
 	public String getLine(int seqNumber) {
 		pageable.setPage(seqNumber);
@@ -97,9 +98,20 @@ public class MIDILine {
 	}
 
 	/**
+	 * Return a step sublist at specific sequence number size
+	 *
+	 * @param seqNumber the sequence number
+	 * @return sublist steps size
+	 */
+	public int getLineSize(int seqNumber) {
+		pageable.setPage(seqNumber);
+		return pageable.getListForPage().size();
+	}
+
+	/**
 	 * Return the number of the sequence, max 8
 	 *
-	 * @return  the number of sequences
+	 * @return the number of sequences
 	 */
 	public int getSeqNumber() {
 		int seqLines = pageable.getMaxPages();
@@ -108,5 +120,4 @@ public class MIDILine {
 		}
 		return seqLines;
 	}
-
 }

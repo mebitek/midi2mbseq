@@ -1,4 +1,4 @@
-package com.mebitek.utils;
+package main.java.mebitek.utils;
 
 /*
  * Copyright (c) 2003-2006, Simon Brown

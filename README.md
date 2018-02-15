@@ -1,7 +1,7 @@
 # midi2mbseq
 mid file to mbseq (Arturia Microbrute sequence) converter
 
-http://music.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-converter-released
+http://music.com.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-converter-released
 
 # features
 * generate mbseq file from file or from directory
@@ -14,7 +14,7 @@ For polyphonic midi file each step of the sequencer will be filled with the firs
 Quantize is suggested but not needed.
 
 # run 
-download https://github.com/mebitek/midi2mbseq/blob/master/mid2mbseq-0.2.1.jar
+download https://github.com/com.mebitek/midi2mbseq/blob/master/mid2mbseq-0.2.1.jar
 
 run as 
 ```

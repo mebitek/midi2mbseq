@@ -1,1 +1,1 @@
-contact mebitek@gmail.com
+contact com.mebitek@gmail.com

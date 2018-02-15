@@ -1,4 +1,4 @@
-package com.mebitek.midi;
+package main.java.mebitek.midi;
 
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;

@@ -1,1 +1,1 @@
-to contribute contact mebitek@gmail.com
+to contribute contact com.mebitek@gmail.com

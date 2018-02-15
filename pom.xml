@@ -4,8 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mebitek</groupId>
     <artifactId>mid2mbseq</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <name>mid2mbseq</name>
+    <packaging>jar</packaging>
     <description>File MId to MBSEQ converter</description>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/commons-cli/commons-cli -->
@@ -17,6 +18,15 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>version.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -41,7 +51,6 @@
                 </executions>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
-
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>

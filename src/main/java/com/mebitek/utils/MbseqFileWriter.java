@@ -1,4 +1,4 @@
-package com.mebitek.utils;
+package main.java.mebitek.utils;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
