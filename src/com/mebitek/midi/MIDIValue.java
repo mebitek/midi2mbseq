@@ -3,6 +3,7 @@ package com.mebitek.midi;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
+import java.util.Collections;
 
 public class MIDIValue {
 
@@ -23,7 +24,7 @@ public class MIDIValue {
 		tick = -1;
 	}
 
-	MIDIValue(MidiEvent event) {
+	MIDIValue(MidiEvent event, MIDIValue prevMIDIValue) {
 		tick = event.getTick();
 		MidiMessage message = event.getMessage();
 		key = -1;
@@ -43,6 +44,16 @@ public class MIDIValue {
 			if (sm.getCommand() == NOTE_ON) {
 				value = String.valueOf(key);
 				valid = true;
+				if (tick != prevMIDIValue.tick) {
+					valid = true;
+					long diff = tick - prevMIDIValue.tick;
+					int pauses = (int) (diff / 240) - 1;
+					if (prevMIDIValue.tick == -1) {
+						pauses = pauses + 1;
+					}
+					String x = String.join("", Collections.nCopies(pauses, "x "));
+					value = x + value;
+				}
 			} else if (sm.getCommand() == NOTE_OFF && key == 127) {
 				value = "x";
 				valid = true;
@@ -56,10 +67,6 @@ public class MIDIValue {
 
 	public boolean isValid() {
 		return valid;
-	}
-
-	public long getTick() {
-		return tick;
 	}
 
 	@Override

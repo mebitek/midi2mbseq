@@ -1,9 +1,16 @@
 package com.mebitek.midi;
 
+import com.mebitek.Pageable;
+import com.sun.deploy.util.StringUtils;
+
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Track;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
+import static com.mebitek.Constants.STEP_RES;
 
 /*
 
@@ -15,48 +22,30 @@ options:
 
 public class MIDILine {
 
-	private static final int STEP_RES = 16;
-
 	private List<String> keys;
-
-	public MIDILine(Track track) {
-		this(track, 0);
-	}
-
+	private Pageable<String> pageable;
 
 	public MIDILine(Track track, int option) {
-		boolean valid = false;
-		keys = new ArrayList<String>();
+		keys = new ArrayList<>();
 
 		MIDIValue prevValue = new MIDIValue();
 		for (int i = 0; i < track.size(); i++) {
 			MidiEvent event = track.get(i);
 
-			MIDIValue midiValue = new MIDIValue(event);
+			MIDIValue midiValue = new MIDIValue(event, prevValue);
 			if (midiValue.isValid()) {
-				if (midiValue.getTick() != prevValue.getTick()) {
-					valid = true;
-					long diff = midiValue.getTick() - prevValue.getTick();
-					int pauses = (int) (diff / 240) - 1;
-					if (i == 1) {
-						pauses = pauses + 1;
-					}
-
-					for (int j = 0; j < pauses; j++) {
-						keys.add("x");
-					}
-
-					keys.add(midiValue.getValue());
-					prevValue = midiValue;
-				}
+				prevValue = midiValue;
+				keys.add(midiValue.getValue());
 			}
 		}
 
-		if (option == 1) {
-			if (valid) {
-				int size = keys.size();
-				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
+		optimizeKeys();
+		this.pageable = new Pageable<>(keys);
 
+		if (option == 1) {
+			int size = keys.size();
+			if (size<MICROBRUTE_SEQ_LENGTH) {
+				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
 				for (int i = 0; i < stepSize - size; i++) {
 					keys.add("x");
 				}
@@ -64,21 +53,27 @@ public class MIDILine {
 		}
 	}
 
+	private void optimizeKeys() {
+		if (keys.size()>0) {
+			keys = new ArrayList<>(Arrays.asList(StringUtils.join(keys, " ").split(" ")));
+		}
+	}
+
 	public int getSize() {
 		return keys.size();
 	}
 
-	public String getLine(int seqNumber, int items) {
-		StringBuilder builder = new StringBuilder();
+	public String getLine(int seqNumber) {
 
-		int end = (keys.size() * seqNumber);
-		int start = end - items;
-		for (String key : keys.subList(start, end)) {
-			builder.append(key);
-			builder.append(" ");
-		}
-		builder.setLength(builder.length() - 1);
-		return builder.toString();
+		pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
+		pageable.setPage(seqNumber);
+
+		return StringUtils.join(pageable.getListForPage(), " ");
+	}
+
+
+	public int getSeqNumber() {
+		return pageable.getMaxPages();
 	}
 
 	public boolean isValid() {

@@ -10,11 +10,11 @@ import javax.sound.midi.Track;
 import java.io.File;
 import java.io.IOException;
 
+import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
+import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
+
 
 public class Main {
-
-	private final static int MICROBRUTE_SEQ_LENGTH = 64;
-	private final static int MICROBRUTE_MAX_SEQ_LINES = 8;
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
 
@@ -63,27 +63,22 @@ public class Main {
 			System.out.println("Track " + trackNumber + ": size = " + track.size());
 			System.out.println();
 
-
 			MIDILine line = new MIDILine(track, fillerType);
+
 			System.out.println("Line Size: " + line.getSize());
 			System.out.println("Seq Size: " + MICROBRUTE_SEQ_LENGTH);
-			int seqLines = 1;
-			int items = line.getSize();
-			if (line.getSize()> MICROBRUTE_SEQ_LENGTH) {
-				seqLines = line.getSize() / MICROBRUTE_SEQ_LENGTH;
-				items = MICROBRUTE_SEQ_LENGTH;
-			}
-			System.out.println("Seq Lines: " + seqLines);
+			int seqLines = line.getSeqNumber();
 
 			if (seqLines > MICROBRUTE_MAX_SEQ_LINES) {
 				seqLines = MICROBRUTE_MAX_SEQ_LINES;
 			}
+			System.out.println("Seq Lines: " + seqLines);
 
 			for (int seqNumber = 1; seqNumber <= seqLines; seqNumber++) {
 
 				if (line.isValid()) {
 					writer.initLine(seqNumber);
-					writer.print(line.getLine(seqNumber, items));
+					writer.print(line.getLine(seqNumber));
 					writer.println();
 				}
 			}
