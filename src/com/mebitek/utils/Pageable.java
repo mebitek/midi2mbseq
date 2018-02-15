@@ -39,15 +39,16 @@ import java.util.List;
  *
  * @author    Simon Brown
  */
+@SuppressWarnings("unused")
 public class Pageable<T> {
 
 	/** the default page size */
-	public static final int DEFAULT_PAGE_SIZE = 10;
+	private static final int DEFAULT_PAGE_SIZE = 10;
 
 	private static final int PAGE_WINDOW = 10;
 
 	/** the list over which this class is paging */
-	private List<T> list;
+	private final List<T> list;
 
 	/** the page size */
 	private int pageSize = DEFAULT_PAGE_SIZE;

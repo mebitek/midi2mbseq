@@ -24,8 +24,8 @@ options:
 public class MIDILine {
 
 	private List<String> keys;
-	private Pageable<String> pageable;
-	private Filler option;
+	private final Pageable<String> pageable;
+	private final Filler option;
 
 	public MIDILine(Track track, Filler option) {
 		keys = new ArrayList<>();

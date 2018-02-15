@@ -5,7 +5,7 @@ import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 import java.util.Collections;
 
-public class MIDIValue {
+class MIDIValue {
 
 	private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 	private static final int NOTE_ON = 0x90;

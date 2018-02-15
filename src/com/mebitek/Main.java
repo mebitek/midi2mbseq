@@ -19,11 +19,11 @@ import java.util.List;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
 
-public class Main {
+@SuppressWarnings("ALL")
+class Main {
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
 
-		int fillerType = 0;
 		Options options = new Options();
 
 		Option input = new Option("i", "input", true, "input file");

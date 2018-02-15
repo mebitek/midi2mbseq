@@ -14,9 +14,10 @@ public class Filler {
 		this.value = STEP_RES;
 	}
 
-	private int type;
+	private final int type;
 	private int value;
 
+	@SuppressWarnings("unused")
 	public int getType() {
 		return type;
 	}
