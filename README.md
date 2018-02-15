@@ -1,7 +1,7 @@
 # midi2mbseq
 mid file to mbseq (Arturia Microbrute sequence) converter
 
-http://music.com.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-converter-released
+http://music.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-converter-released
 
 # features
 * generate mbseq file from file or from directory
