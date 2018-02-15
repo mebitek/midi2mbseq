@@ -5,16 +5,18 @@ http://music.com.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-con
 
 # features
 * generate mbseq file from file or from directory
-* a long mid file will be split into 8 sequences of 64 steps each
-* option to fill at the end the sequence with pauses to the nearest 16 multiple of the sequence length
-* custom fill at end sequence value
+* a long mid file will be split into 8 sequences 
+* option to fill the sequence with pauses to the nearest 16 multiple of the sequence length
+* option to fill the sequence with pauses to custom value
+* option to fill the sequence with pauses to the max microbrute sequencer size (64)
+* set custom sequence length
 
 ## polyphonic midi notes
 For polyphonic midi file each step of the sequencer will be filled with the first note in the midi message (if you play a chord just the highest note will be chosen).
 Quantize is suggested but not needed.
 
 # run 
-download https://github.com/com.mebitek/midi2mbseq/blob/master/mid2mbseq-0.2.1.jar
+download https://github.com/com.mebitek/midi2mbseq/blob/master/mid2mbseq-0.2.2.jar
 
 run as 
 ```
@@ -27,5 +29,7 @@ java -jar mid2mbseq-0.2.1.jar -d /home/user/midi_directory
 ```
 output will be `midi_directory.mbseq`
 
-add `-f` to use filler option
+add `-f` to use full filler option
+add `-m` to use multiple 16 filler option
 add `-c value` to use the filler with custom value
+add `-l` to use set the sequence length
