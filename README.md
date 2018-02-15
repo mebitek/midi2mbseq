@@ -4,7 +4,7 @@ mid file to mbseq (Arturia Microbrute sequence) converter
 http://music.mebitek.com/news/mid-file-mbseq-arturia-microbrute-sequence-converter-released
 
 # features
-* creaet mbseq file from file or from directory
+* generate mbseq file from file or from directory
 * a long mid file will be split into 8 sequences of 64 steps each
 * option to fill at the end the sequence with pauses to the nearest 16 multiple of the sequence length
 * custom fill at end sequence value
