@@ -19,7 +19,6 @@ import java.util.List;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
 
 
-@SuppressWarnings("ALL")
 class Main {
 
 	public static void main(String[] args) throws InvalidMidiDataException, IOException {
