@@ -1,6 +1,7 @@
 package com.mebitek.midi;
 
-import com.mebitek.Pageable;
+import com.mebitek.utils.Filler;
+import com.mebitek.utils.Pageable;
 import com.sun.deploy.util.StringUtils;
 
 import javax.sound.midi.MidiEvent;
@@ -11,7 +12,6 @@ import java.util.List;
 
 import static com.mebitek.Constants.MICROBRUTE_MAX_SEQ_LINES;
 import static com.mebitek.Constants.MICROBRUTE_SEQ_LENGTH;
-import static com.mebitek.Constants.STEP_RES;
 
 /*
 
@@ -25,10 +25,11 @@ public class MIDILine {
 
 	private List<String> keys;
 	private Pageable<String> pageable;
+	private Filler option;
 
-	public MIDILine(Track track, int option) {
+	public MIDILine(Track track, Filler option) {
 		keys = new ArrayList<>();
-
+		this.option = option;
 		MIDIValue prevValue = new MIDIValue();
 		for (int i = 0; i < track.size(); i++) {
 			MidiEvent event = track.get(i);
@@ -43,21 +44,28 @@ public class MIDILine {
 		optimizeKeys();
 		this.pageable = new Pageable<>(keys);
 		this.pageable.setPageSize(MICROBRUTE_SEQ_LENGTH);
+	}
 
-		if (option == 1) {
+	private void optimizeKeys() {
+
+		if (keys.size() > 0) {
+			keys = new ArrayList<>(Arrays.asList(StringUtils.join(keys, " ").split(" ")));
 			int size = keys.size();
-			if (size < MICROBRUTE_SEQ_LENGTH) {
-				int stepSize = (size + STEP_RES - 1) / STEP_RES * STEP_RES;
+			if (option != null) {
+				int stepRes = option.getValue();
+				if (stepRes<=0) {
+					stepRes=1;
+				}
+				if (stepRes > MICROBRUTE_SEQ_LENGTH) {
+					stepRes = MICROBRUTE_SEQ_LENGTH;
+				}
+
+				int stepSize = (keys.size() + stepRes - 1) / stepRes * stepRes;
 				for (int i = 0; i < stepSize - size; i++) {
 					keys.add("x");
 				}
 			}
-		}
-	}
 
-	private void optimizeKeys() {
-		if (keys.size() > 0) {
-			keys = new ArrayList<>(Arrays.asList(StringUtils.join(keys, " ").split(" ")));
 		}
 	}
 
