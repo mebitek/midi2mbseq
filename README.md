@@ -12,11 +12,11 @@ For polyphonic midi file each step of the sequencer will be filled with the firs
 Quantize is suggested but not needed.
 
 # run 
-download https://github.com/mebitek/midi2mbseq/blob/master/mid2mbseq-0.0.1.jar 
+download https://github.com/mebitek/midi2mbseq/blob/master/mid2mbseq-0.1.jar
 
 run as 
 ```
-java -jar mid2mbseq-0.0.1.jar -i midi_file.mid
+java -jar mid2mbseq-0.1.jar -i midi_file.mid
 ```
 output will be `midi_file.mbseq`
 
