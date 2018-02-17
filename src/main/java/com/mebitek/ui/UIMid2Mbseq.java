@@ -63,16 +63,18 @@ public class UIMid2Mbseq extends JPanel
 				createImageIcon("images/Open16.gif"));
 		openButton.addActionListener(this);
 
+		JRadioButton none = new JRadioButton("No Filler");
+		none.setMnemonic(KeyEvent.VK_M);
+		none.setSelected(true);
+		none.setActionCommand("none");
 
 		JRadioButton multiple = new JRadioButton("16 Multiple");
 		multiple.setMnemonic(KeyEvent.VK_M);
-		multiple.setSelected(true);
 		multiple.setActionCommand("multiple");
 
 		JRadioButton full = new JRadioButton("Full");
 		full.setMnemonic(KeyEvent.VK_F);
 		full.setActionCommand("full");
-		full.setSelected(true);
 
 		JRadioButton custom = new JRadioButton("custom");
 		custom.setMnemonic(KeyEvent.VK_C);
@@ -80,6 +82,7 @@ public class UIMid2Mbseq extends JPanel
 
 		//Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
+		group.add(none);
 		group.add(multiple);
 		group.add(full);
 		group.add(custom);
@@ -108,6 +111,7 @@ public class UIMid2Mbseq extends JPanel
 		buttonPanel = new JPanel();
 		buttonPanel.add(openButton);
 		buttonPanel.add(convertButton);
+		buttonPanel.add(none);
 		buttonPanel.add(full);
 		buttonPanel.add(multiple);
 		buttonPanel.add(custom);
@@ -138,12 +142,18 @@ public class UIMid2Mbseq extends JPanel
 		});
 		full.addActionListener(e -> {
 			UIUtils.setVisible(stepResField, false);
-			filler = new Filler(3, Integer.toString(MICROBRUTE_SEQ_LENGTH));
+			filler = new Filler(3, MICROBRUTE_SEQ_LENGTH);
 		});
 
 		multiple.addActionListener(e -> {
 			UIUtils.setVisible(stepResField, false);
 			filler = new Filler(1);
+		});
+
+		none.addActionListener(e -> {
+			UIUtils.setVisible(stepResField, false);
+			filler = null;
+
 		});
 
 
@@ -153,6 +163,7 @@ public class UIMid2Mbseq extends JPanel
 
 		//Handle open button action.
 		if (e.getSource() == openButton) {
+			files = new ArrayList<>();
 			fc.addChoosableFileFilter(new MidFilter());
 			fc.setAcceptAllFileFilterUsed(false);
 
@@ -196,6 +207,12 @@ public class UIMid2Mbseq extends JPanel
 				log.append("Select a file");
 				return;
 			}
+
+			stepLength = Integer.valueOf(lengthField.getText());
+			if (stepResField.isVisible()) {
+				filler = new Filler(2, stepResField.getText());
+			}
+
 			MbseqFileWriter writer;
 			try {
 				writer = new MbseqFileWriter(mbseqFileName);

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mebitek</groupId>
     <artifactId>mid2mbseq</artifactId>
-    <version>0.3</version>
+    <version>0.3.1</version>
     <name>mid2mbseq</name>
     <packaging>jar</packaging>
     <description>File MId to MBSEQ converter</description>
@@ -22,6 +22,14 @@
             <version>3.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.ezware.oxbow/TaskDialog -->
+        <dependency>
+            <groupId>com.ezware.oxbow</groupId>
+            <artifactId>TaskDialog</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -38,9 +46,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20.1</version>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -75,17 +85,20 @@
                             <goal>launch4j</goal>
                         </goals>
                         <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${artifactId}-${version}.jar</jar>
+                            <headerType>console</headerType>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <outfile>${project.build.directory}/mid2mbseq.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
+                            <errTitle>encc</errTitle>
+                            <dontWrapJar>false</dontWrapJar>
                             <classPath>
                                 <mainClass>com.mebitek.Main</mainClass>
                                 <preCp>anything</preCp>
+                                <addDependencies>true</addDependencies>
                             </classPath>
                             <icon>src/main/resources/seq.ico</icon>
                             <jre>
-                                <minVersion>1.6.0</minVersion>
+                                <minVersion>1.8.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                             </jre>
                             <versionInfo>
@@ -105,30 +118,36 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal>
+                            <goal>shade</goal>
                         </goals>
+                        <configuration>
+                        <transformers>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <manifestEntries>
+                                    <Main-Class>com.mebitek.Main</Main-Class>
+                                </manifestEntries>
+                            </transformer>
+                            <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                        </transformers>
+                        <shadedArtifactAttached>true</shadedArtifactAttached>
+                    </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <!-- Jar file entry point -->
-                            <mainClass>com.mebitek.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
             </plugin>
         </plugins>
     </build>
-
-
 </project>
