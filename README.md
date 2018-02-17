@@ -23,15 +23,15 @@ Quantize is suggested but not needed.
 
 ### run java as
 ```
-java -jar mid2mbseq-0.2.1.jar
+java -jar mid2mbseq-0.3.1.jar
 ```
 to run in batch mode
 ```
-java -jar mid2mbseq-0.2.1.jar -b -i midi_file.mid
+java -jar mid2mbseq-0.3.1.jar -b -i midi_file.mid
 ```
 output will be `midi_file.mbseq`
 ```
-java -jar mid2mbseq-0.2.1.jar -b -d /home/user/midi_directory
+java -jar mid2mbseq-0.3.1.jar -b -d /home/user/midi_directory
 ```
 output will be `midi_directory.mbseq`
 
