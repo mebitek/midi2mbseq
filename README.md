@@ -18,8 +18,8 @@ Quantize is suggested but not needed.
 
 # releases
 * windows https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq.exe
-* osx https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.dmg
-* java https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.jar
+* osx https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.1.dmg
+* java https://github.com/mebitek/midi2mbseq/blob/master/releases/mid2mbseq-0.3.1.jar
 
 ### run java as
 ```
